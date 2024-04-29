@@ -16,16 +16,16 @@ app.use(express.json());
 
 
 app.post('/bruxos', async (req, res) => {
-  const { nome, idade, casa, habilidade, status, patrono } = req.body;
-  const query = 'INSERT INTO bruxos (nome, idade, casa, habilidade, status, patrono) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
-  const values = [nome, idade, casa, habilidade, status, patrono];
+  const { nome, idade, casa, habilidade, status_sangue, patrono } = req.body;
+  const query = 'INSERT INTO bruxos (nome, idade, casa, habilidade, status_sangue, patrono) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *';
+  const values = [nome, idade, casa, habilidade, status_sangue, patrono];
 
   try {
     const result = await pool.query(query, values);
-    res.status(201).json(result.rows[0]);
+    res.status_sangue(201).json(result.rows[0]);
   } catch (err) {
-    console.error('error creating wizard 🧙‍♂️:', err);
-    res.status(500).send('error creating wizard 🧙‍♂️');
+    console.error('error creating wizard:', err);
+    res.status_sangue(500).send('error creating wizard');
   }
 });
 
@@ -34,23 +34,23 @@ app.get('/bruxos', async (req, res) => {
     const result = await pool.query('SELECT * FROM bruxos');
     res.json(result.rows);
   } catch (err) {
-    console.error('error getting wizards 🧙‍♂️:', err);
-    res.status(500).send('error getting wizards 🧙‍♂️');
+    console.error('error getting wizards:', err);
+    res.status_sangue(500).send('error getting wizards');
   }
 });
 
 app.put('/bruxos/:id', async (req, res) => {
   const id = req.params.id;
-  const { nome, idade, casa, habilidade, status, patrono } = req.body;
-  const query = 'UPDATE bruxos SET nome=$1, idade=$2, casa=$3, habilidade=$4, status=$5, patrono=$6 WHERE id=$7';
-  const values = [nome, idade, casa, habilidade, status, patrono, id];
+  const { nome, idade, casa, habilidade, status_sangue, patrono } = req.body;
+  const query = 'UPDATE bruxos SET nome=$1, idade=$2, casa=$3, habilidade=$4, status_sangue=$5, patrono=$6 WHERE id=$7';
+  const values = [nome, idade, casa, habilidade, status_sangue, patrono, id];
 
   try {
     await pool.query(query, values);
-    res.send('wizard successfully updated 🧙‍♂️');
+    res.send('wizard successfully updated');
   } catch (err) {
-    console.error('error updating wizard 🧙‍♂️:', err);
-    res.status(500).send('error updating wizard 🧙‍♂️');
+    console.error('error updating wizard:', err);
+    res.status_sangue(500).send('error updating wizard');
   }
 });
 
@@ -60,10 +60,10 @@ app.delete('/bruxos/:id', async (req, res) => {
 
   try {
     await pool.query(query, [id]);
-    res.send('wizard successfully deleted 🧙‍♂️');
+    res.send('wizard successfully deleted');
   } catch (err) {
-    console.error('error when deleting wizard 🧙‍♂️:', err);
-    res.status(500).send('error when deleting wizard 🧙‍♂️');
+    console.error('error when deleting wizard:', err);
+    res.status_sangue(500).send('error when deleting wizard');
   }
 });
 
@@ -74,10 +74,10 @@ app.post('/varinhas', async (req, res) => {
 
   try {
     const result = await pool.query(query, values);
-    res.status(201).json(result.rows[0]);
+    res.status_sangue(201).json(result.rows[0]);
   } catch (err) {
-    console.error('error creating wand 🧹:', err);
-    res.status(500).send('error creating wand 🧹');
+    console.error('error creating wand:', err);
+    res.status_sangue(500).send('error creating wand');
   }
 });
 
@@ -86,8 +86,8 @@ app.get('/varinhas', async (req, res) => {
     const result = await pool.query('SELECT * FROM varinhas');
     res.json(result.rows);
   } catch (err) {
-    console.error('error obtaining wands 🧹:', err);
-    res.status(500).send('error obtaining wands 🧹');
+    console.error('error obtaining wands:', err);
+    res.status_sangue(500).send('error obtaining wands');
   }
 });
 
@@ -101,8 +101,8 @@ app.put('/varinhas/:id', async (req, res) => {
     await pool.query(query, values);
     res.send('Varinha atualizada com sucesso');
   } catch (err) {
-    console.error('Erro ao atualizar varinha:', err);
-    res.status(500).send('Erro ao atualizar varinha');
+    console.error('error updating wand:', err);
+    res.status_sangue(500).send('error updating wand');
   }
 });
  
@@ -112,10 +112,10 @@ app.delete('/varinhas/:id', async (req, res) => {
 
   try {
     await pool.query(query, [id]);
-    res.send('Varinha deletada com sucesso');
+    res.send('successfully deleted wand');
   } catch (err) {
-    console.error('Erro ao deletar varinha:', err);
-    res.status(500).send('Erro ao deletar varinha');
+    console.error('error deleting wand:', err);
+    res.status_sangue(500).send('error deleting wand');
   }
 });
 
@@ -140,7 +140,7 @@ app.get('/', async (req, res) => {
   
     const randomIndex = Math.floor(Math.random() * frases.length);
     const randomPhrase = frases[randomIndex];
-    res.send("Harry Potter lançou sobre você o feitiço: " + randomPhrase);
+    res.send("harry potter cast the spell on you: " + randomPhrase);
   });
 
 
